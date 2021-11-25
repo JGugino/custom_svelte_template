@@ -5,3 +5,12 @@
 	margin: 0;
 	box-sizing: border-box;
 }
+
+.flex{
+	display: flex;
+}
+
+.styleless-horizontal-list{
+	list-style: none;
+	display: inline;
+}
