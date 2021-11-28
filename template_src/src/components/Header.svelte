@@ -1,4 +1,5 @@
-<script lang="ts">
+<script>
+    import {fade} from 'svelte/transition';
     import {createEventDispatcher} from 'svelte';
     const dispatch = createEventDispatcher();
 
@@ -30,6 +31,8 @@
 
     export let mobileModalOpen = false;
 
+    const modalFadeDuration = 400;
+
     const linkClicked = (id, href)=>{
         dispatch("headerLinkClicked", {id, href});
         mobileModalOpen = false;
@@ -37,7 +40,7 @@
 </script>
 <header class="flex">
     {#if mobileModalOpen == true}
-        <div id="mobile-modal-menu" on:click|preventDefault={()=>{mobileModalOpen = false;}}>
+        <div id="mobile-modal-menu" on:click|preventDefault={()=>{mobileModalOpen = false;}} transition:fade={{duration: modalFadeDuration}}>
             {#each headerInfo.navigationLinks as link}
                 <li><a class="header-link mobile-link" on:click|preventDefault|stopPropagation={()=>{linkClicked(link.linkId, link.linkHref)}} href={link.linkHref}>{link.linkText}</a></li>
             {/each}

@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     /* footerInfo Object Structure
         {
             copyrightName: 'Example Text',

@@ -1,8 +1,22 @@
-<script lang="ts">
+<script>
 	import Header from './components/Header.svelte';
 	import ContentHolder from './components/ContentHolder.svelte';
 	import Footer from './components/Footer.svelte';
 
+    import { SinglePageRouter } from "./scripts/singlepage_router";
+
+	let currentRoute = {routeID: 0, routeName: "route_one"};
+
+    const appRoutes = [
+        {routeID: 0, routeName: "route_one"},
+        {routeID: 1, routeName: "route_two"},
+        {routeID: 2, routeName: "route_three"},
+        {routeID: 3, routeName: "route_four"}
+    ];
+
+    const appRouter = new SinglePageRouter(appRoutes);
+
+	//Info used to fill out the header component
 	const headerInfo = {
 		headerType: 'both',
         headerText: 'Example Text',
@@ -16,6 +30,7 @@
         ]
 	}
 
+	//Info used to fill out the footer component
 	const footerInfo = {
 		copyrightName: 'John Doe',
         copyrightYear: '2021',
@@ -27,8 +42,9 @@
 		}
 	}
 
+	//Function that is called when a header link gets clicked, sends the link id and link href with event.
 	const headerLinkClicked = (event)=>{
-		console.log(`Link ID: ${event.detail.id} clicked!`);
+		currentRoute = appRouter.changeCurrentRouteByID(event.detail.id);
 	}
 
 </script>
@@ -36,7 +52,7 @@
 <Header headerInfo={headerInfo} on:headerLinkClicked={headerLinkClicked}></Header>
 
 <main>
-	<ContentHolder></ContentHolder>
+	<ContentHolder bind:currentRoute={currentRoute}></ContentHolder>
 </main>
 
 <Footer footerInfo={footerInfo}></Footer>
