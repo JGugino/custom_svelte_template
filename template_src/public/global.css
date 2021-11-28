@@ -12,5 +12,5 @@
 
 .styleless-horizontal-list{
 	list-style: none;
-	display: inline;
+	display: flex;
 }

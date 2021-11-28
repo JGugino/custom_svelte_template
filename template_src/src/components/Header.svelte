@@ -1,4 +1,7 @@
 <script lang="ts">
+    import {createEventDispatcher} from 'svelte';
+    const dispatch = createEventDispatcher();
+
     /* headerInfo Object Structure
         {
             headerType: 'text/image/both',
@@ -6,7 +9,7 @@
             headerImgSrc: './assets/example.png',
             headerImgAlt: 'header alt'
             navigationLinks: [
-                {linkText: 'Example Link', linkHref: '#test'}
+                {linkId: 0, linkText: 'Example Link', linkHref: '#test'}
             ]
         }
      */
@@ -19,14 +22,28 @@
         headerImgSrc: './favicon.png',
         headerImgAlt: 'header alt',
         navigationLinks: [
-            {linkText: 'Link One', linkHref: '#one'},
-            {linkText: 'Link Two', linkHref: '#two'},
-            {linkText: 'Link Three', linkHref: '#three'}
+            {linkId: 0, linkText: 'Link One', linkHref: '#one'},
+            {linkId: 1, linkText: 'Link Two', linkHref: '#two'},
+            {linkId: 2, linkText: 'Link Three', linkHref: '#three'}
         ]
     };
-</script>
 
+    export let mobileModalOpen = false;
+
+    const linkClicked = (id, href)=>{
+        dispatch("headerLinkClicked", {id, href});
+        mobileModalOpen = false;
+    }
+</script>
 <header class="flex">
+    {#if mobileModalOpen == true}
+        <div id="mobile-modal-menu" on:click|preventDefault={()=>{mobileModalOpen = false;}}>
+            {#each headerInfo.navigationLinks as link}
+                <li><a class="header-link mobile-link" on:click|preventDefault|stopPropagation={()=>{linkClicked(link.linkId, link.linkHref)}} href={link.linkHref}>{link.linkText}</a></li>
+            {/each}
+        </div>
+    {/if}
+
     <div id="header-texts" class="flex">
         {#if headerInfo.headerType == 'image'|| headerInfo.headerType == 'both'}
             <img class="header-image" src={headerInfo.headerImgSrc} alt={headerInfo.headerImgAlt}>
@@ -36,12 +53,13 @@
         {/if}
     </div>
     <nav>
-        <ul>
+        <ul class="styleless-horizontal-list">
             {#each headerInfo.navigationLinks as link}
-                <li class="styleless-horizontal-list"><a class="header-link" href={link.linkHref}>{link.linkText}</a></li>
+                <li><a class="header-link" on:click|preventDefault|stopPropagation={()=>{linkClicked(link.linkId, link.linkHref)}} href={link.linkHref}>{link.linkText}</a></li>
             {/each}
         </ul>
     </nav>
+    <svg on:click|preventDefault={()=>{mobileModalOpen=true;}} class="hamburger-icon" height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>
 </header>
 
 <style>
@@ -61,7 +79,10 @@
         --header-link-spacing: 1rem;
         --header-link-ease-time: 300ms;
 
-        --header-modal-bg-color: rgba(0,0,0, 40%);
+        --header-modal-bg-color: rgba(0,0,0, 90%);
+
+        --hamburger-menu-fill-color: rgb(255, 255, 255);
+        --hamburger-menu-fill-highlight-color: rgb(0, 185, 231); 
 
         width: 100%;
         padding: var(--header-padding);
@@ -70,9 +91,11 @@
         color: var(--header-primary-text-color);
     }
 
-    header > *{
-        flex: 1 1 33%;
+    nav{
+        display: none;
+        margin: 0 auto;
     }
+
 
     #header-texts{
         align-items: center;
@@ -97,5 +120,48 @@
 
     .header-link:hover{
         color: var(--header-highlight-text-color);
+    }
+
+    .hamburger-icon{
+        margin: 0 0 0 auto;
+        width: auto;
+        height: 2.6rem;
+        fill: var(--hamburger-menu-fill-color);
+        transition: fill 300ms ease;
+    }
+
+    .hamburger-icon:hover{ 
+        fill: var(--hamburger-menu-fill-highlight-color);
+    }
+
+    #mobile-modal-menu{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.4rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--header-modal-bg-color);
+    }
+
+    #mobile-modal-menu li{
+        list-style: none;
+    }
+
+    .mobile-link{
+        font-size: 1.8rem;
+    }
+    @media screen and (min-width: 60rem){
+        nav{
+            display: block;
+        }
+
+        .hamburger-icon{
+            display: none;
+        }
     }
 </style>
