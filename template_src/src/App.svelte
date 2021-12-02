@@ -1,7 +1,7 @@
 <script>
-	import Header from './components/Header.svelte';
-	import ContentHolder from './components/ContentHolder.svelte';
-	import Footer from './components/Footer.svelte';
+	import Header from './components/core/Header.svelte';
+	import ContentHolder from './components/core/ContentHolder.svelte';
+	import Footer from './components/core/Footer.svelte';
 
     import { SinglePageRouter } from "./scripts/singlepage_router";
 

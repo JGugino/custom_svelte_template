@@ -29,6 +29,7 @@
         ]
     };
 
+    export let showHeaderNavigation = true;
     export let mobileModalOpen = false;
 
     const modalFadeDuration = 400;
@@ -39,7 +40,7 @@
     }
 </script>
 <header class="flex">
-    {#if mobileModalOpen == true}
+    {#if mobileModalOpen == true && showHeaderNavigation == true}
         <div id="mobile-modal-menu" on:click|preventDefault={()=>{mobileModalOpen = false;}} transition:fade={{duration: modalFadeDuration}}>
             {#each headerInfo.navigationLinks as link}
                 <li><a class="header-link mobile-link" on:click|preventDefault|stopPropagation={()=>{linkClicked(link.linkId, link.linkHref)}} href={link.linkHref}>{link.linkText}</a></li>
@@ -55,6 +56,7 @@
             <h1 class="header-text">{headerInfo.headerText}</h1>
         {/if}
     </div>
+    {#if showHeaderNavigation == true}
     <nav>
         <ul class="styleless-horizontal-list">
             {#each headerInfo.navigationLinks as link}
@@ -63,6 +65,7 @@
         </ul>
     </nav>
     <svg on:click|preventDefault={()=>{mobileModalOpen=true;}} class="hamburger-icon" height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>
+    {/if}
 </header>
 
 <style>
