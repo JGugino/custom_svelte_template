@@ -30,7 +30,11 @@
     };
 
     export let showHeaderNavigation = true;
+    export let centerTitle = false;
     export let mobileModalOpen = false;
+    let headerTextClasses = "flex";
+
+    $: centerTitle == true ? headerTextClasses = "flex centered" : headerTextClasses = "flex";
 
     const modalFadeDuration = 400;
 
@@ -48,7 +52,7 @@
         </div>
     {/if}
 
-    <div id="header-texts" class="flex">
+    <div id="header-texts" class={headerTextClasses}>
         {#if headerInfo.headerType == 'image'|| headerInfo.headerType == 'both'}
             <img class="header-image" src={headerInfo.headerImgSrc} alt={headerInfo.headerImgAlt}>
         {/if}
@@ -106,6 +110,10 @@
     #header-texts{
         align-items: center;
         gap: var(--header-texts-gap);
+    }
+
+    .centered{
+        margin: 0 auto;
     }
 
     .header-text{

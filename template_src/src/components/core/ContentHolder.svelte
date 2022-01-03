@@ -1,5 +1,7 @@
 <script>
-    export let currentRoute = {routeID: 0, routeName: ""};
+    import { spaRouter } from "../../stores/router_store";
+
+    let currentRoute = $spaRouter.currentRoute;
 </script>
 
 <div id="content-holder">
