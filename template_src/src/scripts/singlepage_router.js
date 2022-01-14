@@ -2,8 +2,9 @@ export class SinglePageRouter{
     pageRoutes;
     currentRoute;
 
-    constructor(pageRoutes){
+    constructor(pageRoutes, currentRoute){
         this.pageRoutes = pageRoutes;
+        this.currentRoute = currentRoute;
     }
 
     changeCurrentRouteByID (routeID){
