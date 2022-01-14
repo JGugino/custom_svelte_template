@@ -23,6 +23,7 @@
 	const footerInfo = {
 		copyrightName: 'John Doe',
         copyrightYear: '2021',
+		visibleSocials: ["fb", "yt", "tweet", "insta"],
         socialLinks: {
 			facebook: "https://facebook.com",
 			twitter: "https://twitter.com",
